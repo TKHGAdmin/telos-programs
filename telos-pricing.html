@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telos Fitness — Programs</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface-hover: #161616;
+    --border: #1e1e1e;
+    --border-accent: #2a2a2a;
+    --text: #f0f0f0;
+    --text-muted: #777;
+    --text-dim: #555;
+    --accent: #e8ff47;
+    --accent-dark: #c4d83c;
+    --white: #ffffff;
+    --gradient-accent: linear-gradient(135deg, #e8ff47 0%, #b8cc38 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px 80px;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .header h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .header p {
+    color: var(--text-muted);
+    font-size: 17px;
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    align-items: stretch;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .card:first-child { border-radius: 16px 0 0 16px; }
+  .card:last-child { border-radius: 0 16px 16px 0; }
+
+  /* FEATURED — Lifestyle */
+  .card.featured {
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: 16px;
+    padding: 48px 36px;
+    z-index: 2;
+    transform: scale(1.04);
+    box-shadow:
+      0 0 60px rgba(232, 255, 71, 0.06),
+      0 24px 48px rgba(0,0,0,0.4);
+  }
+
+  .card.featured::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gradient-accent);
+    border-radius: 16px 16px 0 0;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    align-self: flex-start;
+    font-weight: 700;
+  }
+
+  .card-tier {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .card-name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .card.featured .card-name {
+    font-size: 32px;
+    color: var(--white);
+  }
+
+  .card-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+    font-weight: 300;
+    min-height: 66px;
+  }
+
+  .card.featured .card-desc {
+    color: #999;
+  }
+
+  .price-section {
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card.featured .price-section {
+    border-bottom-color: #222;
+  }
+
+  .price-main {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .card.featured .price-main {
+    font-size: 48px;
+    color: var(--accent);
+  }
+
+  .price-sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .price-options {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .price-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .price-option .duration { font-weight: 400; }
+  .price-option .amount { font-weight: 600; color: var(--text); }
+
+  .card.featured .price-option .amount { color: var(--white); }
+
+  .price-option .savings {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .features {
+    list-style: none;
+    margin-bottom: 32px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .features li {
+    font-size: 14px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.4;
+  }
+
+  .features li .check {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    border: 1px solid var(--border-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  .features li .check svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .card.featured .features li .check {
+    background: rgba(232, 255, 71, 0.1);
+    border-color: rgba(232, 255, 71, 0.3);
+  }
+
+  .card.featured .features li {
+    color: #bbb;
+  }
+
+  .features li.missing {
+    color: var(--text-dim);
+    opacity: 0.4;
+  }
+
+  .features li.missing .check {
+    background: transparent;
+    border-color: var(--border);
+  }
+
+  .features li.missing .check svg { display: none; }
+
+  .features li.missing::after {
+    content: '';
+    position: absolute;
+  }
+
+  .cta {
+    display: block;
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: none;
+    margin-top: auto;
+  }
+
+  .cta-secondary {
+    background: var(--surface-hover);
+    color: var(--text);
+    border: 1px solid var(--border-accent);
+  }
+
+  .cta-secondary:hover {
+    background: #1e1e1e;
+    border-color: #333;
+    transform: translateY(-1px);
+  }
+
+  .cta-primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(232, 255, 71, 0.2);
+  }
+
+  .cta-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(232, 255, 71, 0.25);
+  }
+
+  .cta-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border-accent);
+  }
+
+  .cta-outline:hover {
+    background: var(--surface-hover);
+    border-color: #333;
+    transform: translateY(-1px);
+  }
+
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    margin-top: 48px;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-note strong {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .cards {
+      grid-template-columns: 1fr;
+      max-width: 420px;
+      gap: 16px;
+    }
+    .card:first-child,
+    .card:last-child {
+      border-radius: 16px;
+    }
+    .card { border-radius: 16px; }
+    .card.featured {
+      transform: scale(1);
+      order: -1;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-label">Telos Fitness</span>
+  <h1>Stop starting over.<br>Start executing.</h1>
+  <p>Three paths. One system. Pick the level of structure you need to become the man who follows through.</p>
+</div>
+
+<div class="cards">
+
+  <!-- STARTER -->
+  <div class="card">
+    <span class="card-tier">Starter</span>
+    <h2 class="card-name">Athlete Rebuild</h2>
+    <p class="card-desc">A proven 12-week program you run on your own. No coaching, no customization — just structure that works.</p>
+
+    <div class="price-section">
+      <div class="price-main">$299</div>
+      <div class="price-sub">One-time purchase</div>
+    </div>
+
+    <ul class="features">
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        12-week progressive training program
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        3 phases: Foundation → Power → Performance
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Built-in workout tracker
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Home gym alternatives included
+      </li>
+      <li class="missing"><span class="check"></span>Custom programming</li>
+      <li class="missing"><span class="check"></span>Nutrition plan</li>
+      <li class="missing"><span class="check"></span>Weekly coaching calls</li>
+      <li class="missing"><span class="check"></span>Direct text access</li>
+    </ul>
+
+    <a href="https://whop.com/checkout/plan_4XhPpAYVD2xQl" target="_blank" class="cta cta-outline">Get Athlete Rebuild</a>
+  </div>
+
+  <!-- FEATURED — LIFESTYLE -->
+  <div class="card featured">
+    <span class="badge">Most Popular</span>
+    <span class="card-tier">Full System</span>
+    <h2 class="card-name">Lifestyle</h2>
+    <p class="card-desc">The complete system. Custom training, nutrition, daily execution scoring, weekly calls, and direct text access to me. This is how identity changes.</p>
+
+    <div class="price-section">
+      <div class="price-main">$1,000<span style="font-size: 18px; font-weight: 400; color: var(--text-dim);">/mo</span></div>
+      <div class="price-sub">Starting at 3 months</div>
+      <div class="price-options">
+        <div class="price-option">
+          <span class="duration">3 months</span>
+          <span class="amount">$3,000</span>
+        </div>
+        <div class="price-option">
+          <span class="duration">6 months</span>
+          <span class="amount">$5,000</span>
+          <span class="savings">SAVE $1K</span>
+        </div>
+        <div class="price-option">
+          <span class="duration">12 months</span>
+          <span class="amount">$9,000</span>
+          <span class="savings">SAVE $3K</span>
+        </div>
+      </div>
+    </div>
+
+    <ul class="features">
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Fully custom strength programming
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Custom nutrition plan
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Daily habits + execution scoring system
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Weekly coaching calls
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Direct text message access
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#e8ff47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Program adjusted as you progress
+      </li>
+    </ul>
+
+    <a href="https://calendly.com/tkern-y-m5/1-1-growth-consultation-call-clone" target="_blank" class="cta cta-primary">Book Your Free Consultation</a>
+  </div>
+
+  <!-- GROWTH -->
+  <div class="card">
+    <span class="card-tier">Custom Training</span>
+    <h2 class="card-name">Growth</h2>
+    <p class="card-desc">Custom strength programming with weekly coaching calls. For the man who needs structure but wants to handle nutrition on his own.</p>
+
+    <div class="price-section">
+      <div class="price-main">$500<span style="font-size: 18px; font-weight: 400; color: var(--text-dim);">/mo</span></div>
+      <div class="price-sub">Starting at 3 months</div>
+      <div class="price-options">
+        <div class="price-option">
+          <span class="duration">3 months</span>
+          <span class="amount">$1,500</span>
+        </div>
+        <div class="price-option">
+          <span class="duration">6 months</span>
+          <span class="amount">$2,500</span>
+          <span class="savings">SAVE $500</span>
+        </div>
+        <div class="price-option">
+          <span class="duration">12 months</span>
+          <span class="amount">$4,500</span>
+          <span class="savings">SAVE $1.5K</span>
+        </div>
+      </div>
+    </div>
+
+    <ul class="features">
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Fully custom strength programming
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Weekly check-in calls
+      </li>
+      <li>
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Program adjusted as you progress
+      </li>
+      <li class="missing"><span class="check"></span>Custom nutrition plan</li>
+      <li class="missing"><span class="check"></span>Daily habits system</li>
+      <li class="missing"><span class="check"></span>Direct text access</li>
+    </ul>
+
+    <a href="https://calendly.com/tkern-y-m5/1-1-consultation-call-clone" target="_blank" class="cta cta-secondary">Book Your Free Consultation</a>
+  </div>
+
+</div>
+
+<p class="footer-note">
+  <strong>Not sure which is right?</strong> Book a free consultation. I'll tell you.
+</p>
+
+</body>
+</html>
